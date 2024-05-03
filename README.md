@@ -11,7 +11,7 @@ See [`CHANGELOG.md`](CHANGELOG.md) for detailed update notes.
 ## To-do
 
  - [x] Onboard timer
- - [ ] Print out current robot activity on brain
+ - [x] Print out current robot activity on brain
  - [ ] Auto safety w/ new front distance sensor
 
 ### License & Copyright
