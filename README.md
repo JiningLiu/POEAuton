@@ -8,6 +8,12 @@ See [`PORTS.md`](PORTS.md) for connecting devices to the brain.
 
 See [`CHANGELOG.md`](CHANGELOG.md) for detailed update notes.
 
+## To-do
+
+ - [ ] Onboard timer
+ - [ ] Print out current robot activity on brain
+ - [ ] Auto safety w/ new front distance sensor
+
 ### License & Copyright
 GNU General Public License v3.0
 
