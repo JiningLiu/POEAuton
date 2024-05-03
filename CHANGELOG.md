@@ -11,3 +11,6 @@ This file contains the change in features of the codebase, sorted from newest to
 * easily programmable turns by just changing a single array
 * auto turning sequence w/ correction delay
 * manual safety killswitch via controller
+
+### Update 1
+* Fixed code line #'s

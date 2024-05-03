@@ -1,3 +1,5 @@
+
+
 #pragma region VEXcode Generated Robot Configuration
 // Make sure all required headers are included.
 #include <stdio.h>
@@ -57,7 +59,6 @@ void playVexcodeSound(const char *soundName) {
 bool RemoteControlCodeEnabled = true;
 
 #pragma endregion VEXcode Generated Robot Configuration
-
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       AutonCar.cpp                                              */
@@ -66,11 +67,14 @@ bool RemoteControlCodeEnabled = true;
 /*    Description:  Autonomous Race Car for POE                               */
 /*                                                                            */
 /*    Important Code Line #'s:                                                */
-/*        User-adjustable values -------------------------- 76, 79, 82, 85    */
-/*        DO NOT CHANGE values ---------------------------------------- 88    */
-/*        Turns programming ------------------------------------------ 102    */
-/*        Main code exec block --------------------------------- 103 - 126    */
-/*        PID Controller --------------------------------------- 133 - 207    */
+/*        User-adjustable values -------------------------- 86, 89, 92, 95    */
+/*        DO NOT CHANGE values ---------------------------------------- 98    */
+/*        Turns programming ------------------------------------------ 112    */
+/*        Main code exec block --------------------------------- 114 - 139    */
+/*        PID Controller --------------------------------------- 147 - 220    */
+/*        Turn Executor ---------------------------------------- 223 - 256    */
+/*        Final Leg -------------------------------------------- 259 - 270    */
+/*        Manual Safety Abort ---------------------------------- 273 - 286    */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
@@ -280,4 +284,3 @@ void abort() {
     backRight.stop();
   }
 }
-
