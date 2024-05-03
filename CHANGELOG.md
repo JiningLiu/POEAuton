@@ -2,9 +2,11 @@
 
 This file contains the change in features of the codebase, sorted from newest to oldest.
 
+The link in the headers will always be the latest update to the version.
+
 ## [v1](https://github.com/JiningLiu/POEAuton/commit/b3a288d5724b21327f699367a96826deec5e8f81) - 05/02/2024
 
-### Basic Auton DT
+### [Basic Auton DT](https://github.com/JiningLiu/POEAuton/commit/04332562dae87584d8580f70a218971d385aaf95)
 * keep straight (parallel with left or right wall)
 * correct to specific distance away from wall
 * easily adjustable pid multiplier
@@ -12,5 +14,5 @@ This file contains the change in features of the codebase, sorted from newest to
 * auto turning sequence w/ correction delay
 * manual safety killswitch via controller
 
-### Update 1
+### [Update 1](https://github.com/JiningLiu/POEAuton/commit/b3a288d5724b21327f699367a96826deec5e8f81)
 * Fixed code line #'s
