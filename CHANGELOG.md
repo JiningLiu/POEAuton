@@ -2,7 +2,7 @@
 
 This file contains the change in features of the codebase, sorted from newest to oldest.
 
-## [v1](https://github.com/JiningLiu/POEAuton/commit/04332562dae87584d8580f70a218971d385aaf95) - 05/02/2024
+## [v1](https://github.com/JiningLiu/POEAuton/commit/b3a288d5724b21327f699367a96826deec5e8f81) - 05/02/2024
 
 ### Basic Auton DT
 * keep straight (parallel with left or right wall)
