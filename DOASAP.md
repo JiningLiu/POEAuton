@@ -2,7 +2,7 @@
 
 Complete the following tasks ASAP so we can cook.
 
-## Monday
+## Monday, 05/06/2024
 
 ### Flex
 
