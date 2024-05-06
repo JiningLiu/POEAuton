@@ -98,6 +98,8 @@ void pidDistanceStraight();
 void executeTurn(int i, int delay);
 void finalLeg();
 void abort();
+void pasueResume();
+void stop();
 void preparePrintBig(int y, int x, bool clear);
 
 // auton turns programming
@@ -117,6 +119,7 @@ const int preTurnDelay[numberOfTurns] = {4, 1, 4, 1, 1, 1};
 // this sets the seconds of delay AFTER executing the turn or continuing on
 const int postTurnDelay[numberOfTurns] = {0, 2, 0, 2, 2, 2};
 
+bool paused = false;
 bool aborted = false;
 
 int main() {
@@ -125,6 +128,7 @@ int main() {
   Brain.Screen.print("Initializing...");
   
   Controller1.ButtonX.pressed(abort);
+  Controller1.ButtonR1.pressed(pasueResume);
   
   mpu.calibrate();
   mpu.setRotation(0, degrees);
@@ -161,8 +165,8 @@ int main() {
   backRight.spin(forward);
   
   for (int i = 0; i < numberOfTurns; i++) {
-
-    while (aborted);
+    
+    stop();
     
     Brain.Screen.clearLine(3);
     preparePrintBig(3, 1, false);
@@ -173,7 +177,7 @@ int main() {
     // if car is detecting wall where it's supposed to be, always loop pid
     while ((useRightSensor && currentRight < 2000) ||
            (!useRightSensor && currentLeft < 2000)) {
-      while (aborted);
+      stop();
       pidDistanceStraight();
       wait(200, msec);
     }
@@ -243,21 +247,20 @@ void pidDistanceStraight() {
   
   // debug printing
   //
-  // line 1: left distance
-  // line 2: right distance
+  // val 1: left distance
+  // val 2: right distance
+  // val 3: left motor velocity
+  // val 4: right motor velocity
   //
-  // line 4: left motor velocity
-  // line 5: right motor velocity
-  //
-  // Brain.Screen.clearScreen();
-  // Brain.Screen.setCursor(1, 1);
-  // Brain.Screen.print(currentLeft);
-  // Brain.Screen.setCursor(2, 1);
-  // Brain.Screen.print(currentRight);
-  // Brain.Screen.setCursor(4, 1);
-  // Brain.Screen.print(leftMotor);
-  // Brain.Screen.setCursor(5, 1);
-  // Brain.Screen.print(rightMotor);
+  Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(1, 1);
+  Brain.Screen.print(currentLeft);
+  Brain.Screen.setCursor(1, 7);
+  Brain.Screen.print(currentRight);
+  Brain.Screen.setCursor(1, 13);
+  Brain.Screen.print(leftMotor);
+  Brain.Screen.setCursor(1, 19);
+  Brain.Screen.print(rightMotor);
   
   backLeft.setVelocity(leftMotor, percent);
   backRight.setVelocity(rightMotor, percent);
@@ -298,7 +301,7 @@ void executeTurn(int i, int delay) {
     
     // turn left
     while (mpu.rotation(degrees) > -90) {
-      while (aborted);
+      stop();
       leftMotor = 10;
       rightMotor = 100;
     }
@@ -313,7 +316,7 @@ void executeTurn(int i, int delay) {
     
     // turn right
     while (mpu.rotation(degrees) < 90) {
-      while (aborted);
+      stop();
       leftMotor = 100;
       rightMotor = 10;
     }
@@ -357,7 +360,7 @@ void finalLeg() {
 
 // safety abort
 void abort() {
-
+  
   aborted = true;
   
   preparePrintBig(2, 1, true);
@@ -376,6 +379,18 @@ void abort() {
     rightMotor = 0;
     backLeft.stop();
     backRight.stop();
+  }
+}
+
+// self explanatory
+void pasueResume() {
+  paused = !paused;
+}
+
+// stop loop
+void stop() {
+  while (aborted || paused) {
+    wait(15, msec);
   }
 }
 
