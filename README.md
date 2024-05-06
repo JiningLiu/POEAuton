@@ -14,6 +14,7 @@ See [`CHANGELOG.md`](CHANGELOG.md) for detailed update notes.
 
  - [x] Onboard timer
  - [x] Print out current robot activity on brain
+ - [ ] Literally fix everything
  - [ ] Auto safety w/ new front distance sensor
 
 ### License & Copyright

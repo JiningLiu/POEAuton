@@ -29,9 +29,9 @@ for (int iterator = 0; iterator < iterations; iterator++)
 
 
 // Robot configuration code.
-motor backLeft = motor(PORT1, ratio18_1, false);
+motor backLeft = motor(PORT1, ratio36_1, false);
 
-motor backRight = motor(PORT2, ratio18_1, false);
+motor backRight = motor(PORT2, ratio36_1, true);
 
 motor front = motor(PORT3, ratio18_1, false);
 
@@ -66,17 +66,6 @@ bool RemoteControlCodeEnabled = true;
 /*    Created:      04/26/2024                              */
 /*    Description:  Autonomous Race Car for POE             */
 /*                                                          */
-/*    Important Code Line #'s:                              */
-/*        User-adjustable values -------- 87, 90, 93, 96    */
-/*        DO NOT CHANGE values ----------------- 99, 102    */
-/*        Turns programming ------------------- 120, 121    */
-/*        Main code exec block --------------------- 123    */
-/*        PID Controller --------------------------- 203    */
-/*        Turn Executor ---------------------------- 282    */
-/*        Final Leg -------------------------------- 318    */
-/*        Safety Abort ----------------------------- 345    */
-/*        Macro Functions -------------------------- 366    */
-/*                                                          */
 /*----------------------------------------------------------*/
 
 #include "vex.h"
@@ -87,13 +76,16 @@ using namespace vex;
 bool useRightSensor = true;
 
 // decides distance between car and wall in mm
-const int distanceFromWall = 100;
+const int distanceFromWall = 1000;
 
 // decides the intensity of system keep straight adjustments
-const double pidMultiplier = 1;
+const double pidMultiplier = 2;
 
-// decides speed of back motors
-int leftMotor = 95, rightMotor = 95;
+// decides initial speed of back motors
+const int initLeftMotor = 50, initRightMotor = 80;
+const int leftMotorMin = 5, rightMotorMin = 10;
+const int leftMotorMax = 90, rightMotorMax = 100;
+int leftMotor = initLeftMotor, rightMotor = initRightMotor;
 
 // DO NOT CHANGE: stores distance sensor data, default 0
 int lastLeft, currentLeft, lastRight, currentRight;
@@ -103,7 +95,7 @@ int raceTime;
 
 // required to predefine functions??? vex version of cpp is dumb... declarations down below
 void pidDistanceStraight();
-void executeTurn(int i);
+void executeTurn(int i, int delay);
 void finalLeg();
 void abort();
 void preparePrintBig(int y, int x, bool clear);
@@ -111,14 +103,21 @@ void preparePrintBig(int y, int x, bool clear);
 // auton turns programming
 // timing is automatic
 //
-// make sure numberOfTurns is the same as the length of carTurns!
+// make sure numberOfTurns is the same as the length of carTurns & preTurnDelay!
 // memory allocation is required!!!
 //
 // key:
-// 0 - left turn
+// -1 - left turn
+// 0 - keep straight
 // 1 - right turn
-const int numberOfTurns = 4;
-const int carTurns[numberOfTurns] = {1, 1, 1, 0};
+const int numberOfTurns = 6;
+const int carTurns[numberOfTurns] = {0, 1, 0, 1, 1, -1};
+// this sets the seconds of delay BEFORE executing the turn or continuing on
+const int preTurnDelay[numberOfTurns] = {4, 1, 4, 1, 1, 1};
+// this sets the seconds of delay AFTER executing the turn or continuing on
+const int postTurnDelay[numberOfTurns] = {0, 2, 0, 2, 2, 2};
+
+bool aborted = false;
 
 int main() {
   
@@ -130,37 +129,40 @@ int main() {
   mpu.calibrate();
   mpu.setRotation(0, degrees);
   
-  wait(1, seconds);
+  // wait(1, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("Hello!");
+  // wait(2, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("Starting in...");
+  // wait(1, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("5");
+  // wait(1, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("4");
+  // wait(1, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("3");
+  // wait(1, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("2");
+  // wait(1, seconds);
+  // preparePrintBig(2, 1, true);
+  // Brain.Screen.print("1");
+  // wait(1, seconds);
   preparePrintBig(2, 1, true);
-  Brain.Screen.print("Hello!");
-  wait(2, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("Starting in...");
-  wait(1, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("5");
-  wait(1, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("4");
-  wait(1, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("3");
-  wait(1, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("2");
-  wait(1, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("1");
-  wait(1, seconds);
-  preparePrintBig(2, 1, true);
-  Brain.Screen.print("Currently Running:");
+  Brain.Screen.print("Currently:");
   
   // record start time
   raceTime = Brain.Timer.time(msec);
   
   backLeft.spin(forward);
   backRight.spin(forward);
+  
   for (int i = 0; i < numberOfTurns; i++) {
+
+    while (aborted);
     
     Brain.Screen.clearLine(3);
     preparePrintBig(3, 1, false);
@@ -169,14 +171,12 @@ int main() {
     Brain.Screen.print(i + 1);
     
     // if car is detecting wall where it's supposed to be, always loop pid
-    while (
-           (useRightSensor && currentRight < (distanceFromWall + 50))
-           ||
-           (!useRightSensor && currentLeft < (distanceFromWall + 50))
-           ) {
-             pidDistanceStraight();
-             wait(50, msec);
-           }
+    while ((useRightSensor && currentRight < 2000) ||
+           (!useRightSensor && currentLeft < 2000)) {
+      while (aborted);
+      pidDistanceStraight();
+      wait(200, msec);
+    }
     
     Brain.Screen.clearLine(3);
     preparePrintBig(3, 1, false);
@@ -184,7 +184,10 @@ int main() {
     preparePrintBig(3, 6, false);
     Brain.Screen.print(i + 1);
     
-    executeTurn(carTurns[i]);
+    // keep going delay before turn
+    wait(preTurnDelay[i], seconds);
+    
+    executeTurn(carTurns[i], postTurnDelay[i]);
   }
   
   Brain.Screen.clearLine(3);
@@ -206,33 +209,33 @@ void pidDistanceStraight() {
   
   if (useRightSensor) {
     // using right sensor
-    if (currentRight - 1 > distanceFromWall) {
+    if (currentRight > distanceFromWall) {
       // too far from wall
       pidShiftRight();
-    } else if (currentRight + 1 < distanceFromWall) {
+    } else if (currentRight < distanceFromWall) {
       // too close to wall
       pidShiftLeft();
     } else {
       // keep straight
-      if (currentRight - 1 > lastRight) {
+      if (currentRight > lastRight) {
         pidShiftRight();
-      } else if (currentRight + 1 < lastRight) {
+      } else if (currentRight < lastRight) {
         pidShiftLeft();
       }
     }
   } else {
     // using left sensor
-    if (currentLeft - 1 > distanceFromWall) {
+    if (currentLeft > distanceFromWall) {
       // too far from wall
       pidShiftLeft();
-    } else if (currentLeft + 1 < distanceFromWall) {
+    } else if (currentLeft < distanceFromWall) {
       // too close to wall
       pidShiftRight();
     } else {
       // keep straight
-      if (currentLeft - 1 > lastLeft) {
+      if (currentLeft > lastLeft) {
         pidShiftLeft();
-      } else if (currentLeft + 1 < lastLeft) {
+      } else if (currentLeft < lastLeft) {
         pidShiftRight();
       }
     }
@@ -261,13 +264,21 @@ void pidDistanceStraight() {
 }
 
 void pidShiftLeft() {
-  leftMotor -= pidMultiplier;
-  rightMotor += pidMultiplier;
+  if (leftMotor > leftMotorMin) {
+    leftMotor -= pidMultiplier;
+  }
+  if (rightMotor < rightMotorMax) {
+    rightMotor += pidMultiplier;
+  }
 }
 
 void pidShiftRight() {
-  leftMotor += pidMultiplier;
-  rightMotor -= pidMultiplier;
+  if (leftMotor < leftMotorMax) {
+    leftMotor += pidMultiplier;
+  }
+  if (rightMotor > rightMotorMin) {
+    rightMotor -= pidMultiplier;
+  }
 }
 
 // updates last & current distance
@@ -279,42 +290,45 @@ void updateDistance() {
 }
 
 // turn execution based on previous instructions from for each loop & carTurns array
-void executeTurn(int i) {
+void executeTurn(int i, int delay) {
   
   mpu.setRotation(0, degrees);
   
-  if (i == 0) {
+  if (i == -1) {
     
     // turn left
     while (mpu.rotation(degrees) > -90) {
-      leftMotor = -20;
+      while (aborted);
+      leftMotor = 10;
       rightMotor = 100;
     }
     
-    leftMotor = 80;
-    rightMotor = 80;
+    leftMotor = initLeftMotor;
+    rightMotor = initRightMotor;
     
     // change to detect left wall, wait 1s for wall to spawn in
     useRightSensor = false;
-    wait(1, seconds);
-  } else {
+    wait(delay, seconds);
+  } else if (i == 1) {
     
     // turn right
     while (mpu.rotation(degrees) < 90) {
+      while (aborted);
       leftMotor = 100;
-      rightMotor = -20;
+      rightMotor = 10;
     }
     
-    leftMotor = 80;
-    rightMotor = 80;
+    leftMotor = initLeftMotor;
+    rightMotor = initRightMotor;
     
     // change to detect right wall, wait 1s for wall to spawn in
     useRightSensor = true;
-    wait(1, seconds);
+    wait(delay, seconds);
   }
 }
 
 // simple stuff
+// change to detect tape soon
 void finalLeg() {
   leftMotor = 80;
   rightMotor = 100;
@@ -343,6 +357,8 @@ void finalLeg() {
 
 // safety abort
 void abort() {
+
+  aborted = true;
   
   preparePrintBig(2, 1, true);
   Brain.Screen.print("SAFETY");
@@ -350,10 +366,10 @@ void abort() {
   Brain.Screen.print("KILLSWITCH");
   
   // hard brake
-  leftMotor = -100;
-  rightMotor = -100;
+  backLeft.setVelocity(-100, percent);
+  backRight.setVelocity(-100, percent);
   
-  wait(100, msec);
+  wait((leftMotor + rightMotor) * 4, msec);
   
   while (true) {
     leftMotor = 0;
