@@ -79,7 +79,7 @@ bool useRightSensor = true;
 const int distanceFromWall = 1000;
 
 // decides the intensity of system keep straight adjustments
-const double pidMultiplier = 2;
+const double pidMultiplier = 3;
 
 // decides initial speed of back motors
 const int initLeftMotor = 50, initRightMotor = 80;
@@ -100,6 +100,7 @@ void finalLeg();
 void abort();
 void pasueResume();
 void stop();
+void debugPrint();
 void preparePrintBig(int y, int x, bool clear);
 
 // auton turns programming
@@ -245,22 +246,7 @@ void pidDistanceStraight() {
     }
   }
   
-  // debug printing
-  //
-  // val 1: left distance
-  // val 2: right distance
-  // val 3: left motor velocity
-  // val 4: right motor velocity
-  //
-  Brain.Screen.clearScreen();
-  Brain.Screen.setCursor(1, 1);
-  Brain.Screen.print(currentLeft);
-  Brain.Screen.setCursor(1, 7);
-  Brain.Screen.print(currentRight);
-  Brain.Screen.setCursor(1, 13);
-  Brain.Screen.print(leftMotor);
-  Brain.Screen.setCursor(1, 19);
-  Brain.Screen.print(rightMotor);
+  debugPrint();
   
   backLeft.setVelocity(leftMotor, percent);
   backRight.setVelocity(rightMotor, percent);
@@ -394,7 +380,25 @@ void stop() {
   }
 }
 
-// MARK: Macro functions
+// debug printing
+//
+// val 1: left distance
+// val 2: right distance
+// val 3: left motor velocity
+// val 4: right motor velocity
+//
+void debugPrint() {
+  Brain.Screen.setFont(prop20);
+  Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(1, 1);
+  Brain.Screen.print(currentLeft);
+  Brain.Screen.setCursor(1, 7);
+  Brain.Screen.print(currentRight);
+  Brain.Screen.setCursor(1, 13);
+  Brain.Screen.print(leftMotor);
+  Brain.Screen.setCursor(1, 19);
+  Brain.Screen.print(rightMotor);
+}
 
 // makes preparing for printing in big font easy
 //

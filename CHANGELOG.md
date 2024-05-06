@@ -6,7 +6,11 @@ The link in the main version headers will always be to the latest update of the 
 
 ## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06/2024
 
-### [Update 1](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06/2024
+### [Update 2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06/2024
+- fixed debug printout font size
+- updated pid multiplier to 3
+
+### [Update 1](https://github.com/JiningLiu/POEAuton/commit/5a80527c4e6215378f155d03325cc5934c398d6d) - 05/06/2024
 - re-added debug printouts
 - added pause & resume
 
