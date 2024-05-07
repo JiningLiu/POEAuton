@@ -1,8 +1,10 @@
 # PLTW POE Auton Race Car
 
-See [`AutonCar.cpp`](AutonCar.cpp) for code.
+See [`src/main.cpp`](src/main.cpp) for code.
 
-Download [`AutonCar.v5cpp`](AutonCar.v5cpp) for running on bot.
+__Install the [VEX Robotics VSC plugin](https://marketplace.visualstudio.com/items?itemName=VEXRobotics.vexcode) to build & download.__
+
+Download [`AutonCar.v5cpp`](AutonCar.v5cpp) for running on bot with VEXcode app. (File may not be updated, please use the VSC method.)
 
 See [`DOASAP.md`](DOASAP.md) for ASAP to-do list.
 

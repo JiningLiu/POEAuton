@@ -61,7 +61,7 @@ bool RemoteControlCodeEnabled = true;
 #pragma endregion VEXcode Generated Robot Configuration
 /*----------------------------------------------------------*/
 /*                                                          */
-/*    Module:       AutonCar.cpp                            */
+/*    Module:       main.cpp                                */
 /*    Author:       Jining Liu                              */
 /*    Created:      04/26/2024                              */
 /*    Description:  Autonomous Race Car for POE             */
