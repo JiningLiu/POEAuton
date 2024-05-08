@@ -26,7 +26,7 @@ Color Left `colorLeft` - 16
 
 Color Right `colorRight` - 17
 
-Color Front `colorFront` - 18
+Color Front `colorFront` - 18 __(unused)__
 
 ## Controller
 
