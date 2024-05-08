@@ -5,16 +5,17 @@ Complete the following tasks ASAP so we can cook.
 ## Friday, 05/10/2024
 
 ### Flex
-- [ ] Add front distance sensor
-- [ ] Code "this is not a weapon" crash prevention
+- [ ] Finish testing
 
 ### Class
-- [ ] Final test (v3)
+- [ ] Final runthrough (v3)
 
 ## Thrusday, 05/09/2024
 
 ### Flex
+- [ ] Add front distance sensor
 - [ ] Program course in constants
+- [ ] Code "this is not a weapon" crash prevention
 
 ## Wednesday, 05/08/2024
 
