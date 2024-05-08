@@ -2,16 +2,42 @@
 
 Complete the following tasks ASAP so we can cook.
 
+## Friday, 05/10/2024
+
+### Flex
+- [ ] Add front distance sensor
+- [ ] Code "this is not a weapon" crash prevention
+
+### Class
+- [ ] Final test (v3)
+
+## Thrusday, 05/09/2024
+
+### Flex
+- [ ] Program course in constants
+
+## Wednesday, 05/08/2024
+
+### Flex
+- [x] Change out distance sensor
+- [x] Check distance sensor errors
+
+### Class
+- [x] Update code and cook
+
+### After School
+- [ ] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
+
 ## Tuesday, 05/07/2024
 
 ### Anytime
-- [ ] Upload [latest v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) to brain
-- [ ] Tighten all screws
-- [ ] Flip brain to the top of the car
-- [ ] Test, debug v2 basic auton & fix printouts
-- [ ] Add another distance sensor to the front of the car
-- [ ] Code "this is not a weapon" crash prevention
-- [ ] Code final leg & color sensors
+- [x] Upload [v2 update 2 code](https://github.com/JiningLiu/POEAuton/commit/baa1e351fadf846500ed028510a2107c0c9f50e7) to brain
+- [x] Tighten all screws
+- [x] Flip brain to the top of the car
+- [x] Test, debug v2 basic auton & fix printouts
+- [ ] ~~Add another distance sensor to the front of the car~~
+- [ ] ~~Code "this is not a weapon" crash prevention~~
+- [ ] ~~Code final leg & color sensors~~
 
 ## Monday, 05/06/2024
 

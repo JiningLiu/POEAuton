@@ -4,9 +4,27 @@ This file contains the change in features of the codebase, sorted from newest to
 
 The link in the main version headers will always be to the latest update of the version.
 
-## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06/2024
+## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06-08/2024
 
-### [Update 2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06/2024
+### [We Kinda Cooked Update (3)](https://github.com/JiningLiu/POEAuton/commit/main) - 05/07-08/2024
+- updated distance from wall to 200mm
+- updated pid multiplier to 2
+- updated min & max motor values (slow down & overturn prevention)
+- fixed distance sensor issue (override first 9999s)
+- super rotation calibration
+- fixed rotational axis
+- changed wall detection values to 9999
+- fixed brain print clear line locations
+- commented out useless (for now) code
+- fixed pid shifting not matching up
+- fixed turn execution incorrect angles
+- fixed debug print issues
+- aborting no longer removes debug print
+- fixed (probably) pause & resume (didn't test)
+- added rotation to debug print
+- formatting changes
+
+### [Update 2](https://github.com/JiningLiu/POEAuton/commit/baa1e351fadf846500ed028510a2107c0c9f50e7) - 05/06/2024
 - fixed debug printout font size
 - updated pid multiplier to 3
 
