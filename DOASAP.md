@@ -14,6 +14,7 @@ Complete the following tasks ASAP so we can cook.
 
 ### Flex
 - [ ] Add front distance sensor
+- [ ] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
 - [ ] Program course in constants
 - [ ] Code "this is not a weapon" crash prevention
 
@@ -27,7 +28,7 @@ Complete the following tasks ASAP so we can cook.
 - [x] Update code and cook
 
 ### After School
-- [ ] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
+- [ ] ~~Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test~~
 
 ## Tuesday, 05/07/2024
 
