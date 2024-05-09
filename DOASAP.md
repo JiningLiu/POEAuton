@@ -5,6 +5,7 @@ Complete the following tasks ASAP so we can cook.
 ## Friday, 05/10/2024
 
 ### Flex
+- [ ] Code "this is not a weapon" crash prevention
 - [ ] Finish testing
 
 ### Class
@@ -14,9 +15,9 @@ Complete the following tasks ASAP so we can cook.
 
 ### Flex
 - [ ] Add front distance sensor
+- [ ] Change fixed wall distance to range
 - [ ] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
 - [ ] Program course in constants
-- [ ] Code "this is not a weapon" crash prevention
 
 ## Wednesday, 05/08/2024
 
