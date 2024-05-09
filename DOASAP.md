@@ -20,7 +20,7 @@ Complete the following tasks ASAP so we can cook.
 ### Flex
 - [x] Add front distance sensor
 - [x] Change fixed wall distance to range
-- [x] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
+- [x] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/commit/58e062a0224e81c379fe86d822071ee777868c24) and test
 
 ## Wednesday, 05/08/2024
 
@@ -32,7 +32,7 @@ Complete the following tasks ASAP so we can cook.
 - [x] Update code and cook
 
 ### After School
-- [ ] ~~Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test~~
+- [ ] ~~Upload [final v2 code](https://github.com/JiningLiu/POEAuton/commit/58e062a0224e81c379fe86d822071ee777868c24) and test~~
 
 ## Tuesday, 05/07/2024
 
