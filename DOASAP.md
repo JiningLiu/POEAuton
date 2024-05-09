@@ -9,7 +9,7 @@ Complete the following tasks ASAP so we can cook.
 - [ ] Program course in constants
 
 ### Lunch
-- [ ] Code "this is not a weapon" crash prevention
+- [ ] Code final leg
 - [ ] Finish testing
 
 ### Class
@@ -21,6 +21,9 @@ Complete the following tasks ASAP so we can cook.
 - [x] Add front distance sensor
 - [x] Change fixed wall distance to range
 - [x] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/commit/58e062a0224e81c379fe86d822071ee777868c24) and test
+
+### Anytime
+- [x] Code "this is not a weapon" crash prevention
 
 ## Wednesday, 05/08/2024
 

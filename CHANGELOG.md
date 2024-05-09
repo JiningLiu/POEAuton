@@ -5,7 +5,12 @@ This file contains the change in features of the codebase, sorted from newest to
 The link in the main version headers will always be to the latest update of the version.
 
 ## v3 - 05/10/2024
+
+### Final Release - 05/10/2024
+
 _This is a planned release_
+
+- added front detection abort
 
 ## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06-09/2024
 

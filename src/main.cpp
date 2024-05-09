@@ -383,6 +383,14 @@ void setVelocity()
   backRight.setVelocity(rightMotor, percent);
 }
 
+void frontImpale()
+{
+  if (distanceFront.objectDistance(mm) < 200)
+  {
+    abort();
+  }
+}
+
 // safety abort
 void abort()
 {
@@ -397,10 +405,11 @@ void abort()
   // hard brake
   backLeft.setVelocity(-100, percent);
   backRight.setVelocity(-100, percent);
-  
+
   wait((leftMotor + rightMotor) * 4, msec);
-  
-  while (true) {
+
+  while (true)
+  {
     leftMotor = 0;
     rightMotor = 0;
     backLeft.stop();
@@ -417,6 +426,7 @@ void pasueResume()
 // stop loop
 void stop()
 {
+  frontImpale();
   if (aborted || paused)
   {
     backLeft.setVelocity(-100, percent);
