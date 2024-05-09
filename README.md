@@ -1,4 +1,10 @@
-# PLTW POE Auton Race Car
+<h1 align="center">
+  PLTW POE Auton Race Car
+</h1>
+
+<p align="center">
+  Compatible with any RWD, Vex V5 w/ modifications.
+</p>
 
 See [`src/main.cpp`](src/main.cpp) for code.
 
