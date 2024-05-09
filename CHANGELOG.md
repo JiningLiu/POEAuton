@@ -4,9 +4,22 @@ This file contains the change in features of the codebase, sorted from newest to
 
 The link in the main version headers will always be to the latest update of the version.
 
-## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06-08/2024
+## v3 - 05/10/2024
+_This is a planned release_
 
-### [We Kinda Cooked Update (3)](https://github.com/JiningLiu/POEAuton/commit/main) - 05/07-08/2024
+## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06-09/2024
+
+### [Almost There Update (4)](https://github.com/JiningLiu/POEAuton/commit/main) - 05/09/2024
+- removed useless code
+- added indication for left/right turn & keep straight @ intersections
+- changed fixed wall distance to a range
+- increased speed
+- re-added keep straight w/o set distance
+- fixed turning not changing motor speed
+- added front distance sensor to code init
+- updated code structure
+
+### [We Kinda Cooked Update (3)](https://github.com/JiningLiu/POEAuton/commit/a90ba2c283063050288bd9aadcc773d0f6339c17) - 05/07-08/2024
 - updated distance from wall to 200mm
 - updated pid multiplier to 2
 - updated min & max motor values (slow down & overturn prevention)

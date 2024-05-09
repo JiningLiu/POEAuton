@@ -5,6 +5,10 @@ Complete the following tasks ASAP so we can cook.
 ## Friday, 05/10/2024
 
 ### Flex
+- [ ] Move to quad-wheel design
+- [ ] Program course in constants
+
+### Lunch
 - [ ] Code "this is not a weapon" crash prevention
 - [ ] Finish testing
 
@@ -14,10 +18,9 @@ Complete the following tasks ASAP so we can cook.
 ## Thrusday, 05/09/2024
 
 ### Flex
-- [ ] Add front distance sensor
-- [ ] Change fixed wall distance to range
-- [ ] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
-- [ ] Program course in constants
+- [x] Add front distance sensor
+- [x] Change fixed wall distance to range
+- [x] Upload [final v2 code](https://github.com/JiningLiu/POEAuton/blob/main/AutonCar.v5cpp) and test
 
 ## Wednesday, 05/08/2024
 

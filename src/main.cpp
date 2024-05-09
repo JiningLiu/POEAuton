@@ -1,7 +1,6 @@
 
-
 #pragma region VEXcode Generated Robot Configuration
-// Make sure all required headers are included.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -12,48 +11,27 @@
 
 using namespace vex;
 
-// Brain should be defined by default
 brain Brain;
 
-// START V5 MACROS
-#define waitUntil(condition) \
-  do                         \
-  {                          \
-    wait(5, msec);           \
-  } while (!(condition))
-
-#define repeat(iterations) \
-  for (int iterator = 0; iterator < iterations; iterator++)
-// END V5 MACROS
-
-// Robot configuration code.
+// robot devices onfiguration
 motor backLeft = motor(PORT1, ratio36_1, false);
-
 motor backRight = motor(PORT2, ratio36_1, true);
-
-motor front = motor(PORT3, ratio36_1, false);
 
 inertial mpu = inertial(PORT6);
 
 distance distanceLeft = distance(PORT11);
 distance distanceRight = distance(PORT12);
+distance distanceFront = distance(PORT13);
+
 optical colorLeft = optical(PORT16);
 optical colorRight = optical(PORT17);
-optical colorFront = optical(PORT18);
+
 controller Controller1 = controller(primary);
 
-// Helper to make playing sounds from the V5 in VEXcode easier and
-// keeps the code cleaner by making it clear what is happening.
-void playVexcodeSound(const char *soundName)
-{
-  printf("VEXPlaySound:%s\n", soundName);
-  wait(5, msec);
-}
-
-// define variable for remote controller enable/disable
 bool RemoteControlCodeEnabled = true;
 
 #pragma endregion VEXcode Generated Robot Configuration
+
 /*----------------------------------------------------------*/
 /*                                                          */
 /*    Module:       main.cpp                                */
@@ -70,16 +48,16 @@ using namespace vex;
 // decides which distance sensor to use
 bool useRightSensor = true;
 
-// decides distance between car and wall in mm
-const int distanceFromWall = 200;
+// decides distance between car and wall in mm, this is a range
+const int minDistanceFromWall = 250, maxDistanceFromWall = 450;
 
 // decides the intensity of system keep straight adjustments
 const double pidMultiplier = 2;
 
 // decides initial speed of back motors
-const int initLeftMotor = 20, initRightMotor = 25;
-const int leftMotorMin = 18, rightMotorMin = 22;
-const int leftMotorMax = 22, rightMotorMax = 27;
+const int initLeftMotor = 34, initRightMotor = 40;
+const int leftMotorMin = 30, rightMotorMin = 36;
+const int leftMotorMax = 38, rightMotorMax = 44;
 int leftMotor = initLeftMotor, rightMotor = initRightMotor;
 
 // DO NOT CHANGE: stores distance sensor data, default 0
@@ -141,29 +119,6 @@ int main()
 
   wait(1, seconds);
 
-  // wait(1, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("Hello!");
-  // wait(2, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("Starting in...");
-  // wait(1, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("5");
-  // wait(1, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("4");
-  // wait(1, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("3");
-  // wait(1, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("2");
-  // wait(1, seconds);
-  // preparePrintBig(2, 1, true);
-  // Brain.Screen.print("1");
-  // wait(1, seconds);
-
   preparePrintBig(2, 1, true);
   Brain.Screen.print("Currently:");
 
@@ -194,9 +149,22 @@ int main()
 
     preparePrintBig(3, 1, false);
     Brain.Screen.clearLine(3);
-    Brain.Screen.print("Turn");
-    preparePrintBig(3, 6, false);
+    Brain.Screen.print("Intersection");
+    preparePrintBig(3, 14, false);
     Brain.Screen.print(i + 1);
+    preparePrintBig(4, 1, false);
+    switch (carTurns[i])
+    {
+    case -1:
+      Brain.Screen.print("Left Turn");
+      break;
+    case 0:
+      Brain.Screen.print("Keep Straight");
+      break;
+    case 1:
+      Brain.Screen.print("Right Turn");
+      break;
+    }
 
     // keep going delay before turn
     wait(preTurnDelay[i], seconds);
@@ -211,6 +179,9 @@ int main()
   finalLeg();
 }
 
+// predefine for all below, this is so dumb
+void setVelocity();
+
 // predefine for pid, this is so dumb
 void pidShiftLeft();
 void pidShiftRight();
@@ -224,60 +195,59 @@ void pidDistanceStraight()
   if (useRightSensor)
   {
     // using right sensor
-    if (currentRight > distanceFromWall)
+    if (currentRight > maxDistanceFromWall)
     {
       // too far from wall
       pidShiftRight();
     }
-    else if (currentRight < distanceFromWall)
+    else if (currentRight < minDistanceFromWall)
     {
       // too close to wall
       pidShiftLeft();
     }
-    // else
-    // {
-    //   // keep straight
-    //   if (currentRight > lastRight)
-    //   {
-    //     pidShiftRight();
-    //   }
-    //   else if (currentRight < lastRight)
-    //   {
-    //     pidShiftLeft();
-    //   }
-    // }
+    else
+    {
+      // keep straight
+      if (currentRight > lastRight)
+      {
+        pidShiftRight();
+      }
+      else if (currentRight < lastRight)
+      {
+        pidShiftLeft();
+      }
+    }
   }
   else
   {
     // using left sensor
-    if (currentLeft > distanceFromWall)
+    if (currentLeft > maxDistanceFromWall)
     {
       // too far from wall
       pidShiftLeft();
     }
-    else if (currentLeft < distanceFromWall)
+    else if (currentLeft < minDistanceFromWall)
     {
       // too close to wall
       pidShiftRight();
     }
-    // else
-    // {
-    //   // keep straight
-    //   if (currentLeft > lastLeft)
-    //   {
-    //     pidShiftLeft();
-    //   }
-    //   else if (currentLeft < lastLeft)
-    //   {
-    //     pidShiftRight();
-    //   }
-    // }
+    else
+    {
+      // keep straight
+      if (currentLeft > lastLeft)
+      {
+        pidShiftLeft();
+      }
+      else if (currentLeft < lastLeft)
+      {
+        pidShiftRight();
+      }
+    }
   }
 
   debugPrint();
 
-  backLeft.setVelocity(leftMotor, percent);
-  backRight.setVelocity(rightMotor, percent);
+  setVelocity();
 }
 
 void pidShiftLeft()
@@ -333,12 +303,14 @@ void executeTurn(int i, int delay)
   {
 
     // turn left
-    while (mpu.heading(degrees) > 270)
+    while (mpu.heading(degrees) > 270 || mpu.heading(degrees) < 180)
     {
       stop();
       debugPrint();
       leftMotor = 10;
       rightMotor = 100;
+      setVelocity();
+      wait(15, msec);
     }
 
     leftMotor = initLeftMotor;
@@ -352,16 +324,19 @@ void executeTurn(int i, int delay)
   {
 
     // turn right
-    while (mpu.heading(degrees) < 90)
+    while (mpu.heading(degrees) < 90 || mpu.heading(degrees) > 180)
     {
       stop();
       debugPrint();
       leftMotor = 100;
       rightMotor = 10;
+      setVelocity();
+      wait(15, msec);
     }
 
     leftMotor = initLeftMotor;
     rightMotor = initRightMotor;
+    setVelocity();
 
     // change to detect right wall, wait 1s for wall to spawn in
     useRightSensor = true;
@@ -375,11 +350,14 @@ void finalLeg()
 {
   leftMotor = 80;
   rightMotor = 100;
+  setVelocity();
   wait(1, seconds);
   leftMotor = 100;
   rightMotor = 80;
+  setVelocity();
   wait(1, seconds);
   rightMotor = 100;
+  setVelocity();
   wait(2, seconds);
   backLeft.stop();
   backRight.stop();
@@ -398,6 +376,13 @@ void finalLeg()
   Brain.Screen.print(raceTime / 1000 % 60);
 }
 
+// set motor velocity to variable values
+void setVelocity()
+{
+  backLeft.setVelocity(leftMotor, percent);
+  backRight.setVelocity(rightMotor, percent);
+}
+
 // safety abort
 void abort()
 {
@@ -408,6 +393,19 @@ void abort()
   preparePrintBig(3, 1, false);
   Brain.Screen.clearLine(3);
   Brain.Screen.print("KILLSWITCH");
+
+  // hard brake
+  backLeft.setVelocity(-100, percent);
+  backRight.setVelocity(-100, percent);
+  
+  wait((leftMotor + rightMotor) * 4, msec);
+  
+  while (true) {
+    leftMotor = 0;
+    rightMotor = 0;
+    backLeft.stop();
+    backRight.stop();
+  }
 }
 
 // self explanatory
@@ -431,6 +429,8 @@ void stop()
 
     while (aborted || paused)
     {
+      backLeft.setVelocity(0, percent);
+      backRight.setVelocity(0, percent);
       backLeft.stop();
       backRight.stop();
       wait(15, msec);
@@ -438,8 +438,7 @@ void stop()
 
     leftMotor = lastLeftMotor;
     rightMotor = lastRightMotor;
-    backLeft.setVelocity(leftMotor, percent);
-    backRight.setVelocity(rightMotor, percent);
+    setVelocity();
     backLeft.spin(forward);
     backRight.spin(forward);
   }
