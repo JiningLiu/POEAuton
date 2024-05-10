@@ -20,7 +20,7 @@ Distance Left `distanceLeft` - 11
 
 Distance Right `distanceRight` - 12
 
-Distance Front `distanceFront` - 13 __(not yet added)__
+Distance Front `distanceFront` - 13
 
 Color Left `colorLeft` - 16
 

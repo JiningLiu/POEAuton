@@ -49,19 +49,19 @@ using namespace vex;
 bool useRightSensor = true;
 
 // decides distance between car and wall in mm, this is a range
-const int minDistanceFromWall = 250, maxDistanceFromWall = 450;
+const int minDistanceFromWall = 250, maxDistanceFromWall = 350;
 
 // decides the intensity of system keep straight adjustments
-const double pidMultiplier = 2;
+const double leftPidMultiplier = 1, rightPidMultiplier = 2;
 
 // decides initial speed of back motors
-const int initLeftMotor = 34, initRightMotor = 40;
-const int leftMotorMin = 30, rightMotorMin = 36;
-const int leftMotorMax = 38, rightMotorMax = 44;
+const int initLeftMotor = 34, initRightMotor = 50;
+const int leftMotorMin = 31, rightMotorMin = 44;
+const int leftMotorMax = 37, rightMotorMax = 56;
 int leftMotor = initLeftMotor, rightMotor = initRightMotor;
 
 // DO NOT CHANGE: stores distance sensor data, default 0
-int lastLeft, currentLeft, lastRight, currentRight;
+int lastLeft, currentLeft, lastRight, currentRight, currentFront;
 
 // DO NOT CHANGE: stopwatch for race timing in ms, default 0
 int raceTime;
@@ -72,7 +72,7 @@ void pidDistanceStraight();
 void executeTurn(int i, int delay);
 void finalLeg();
 void abort();
-void pasueResume();
+void pauseResume();
 void stop();
 void debugPrint();
 void preparePrintBig(int y, int x, bool clear);
@@ -90,7 +90,7 @@ void preparePrintBig(int y, int x, bool clear);
 const int numberOfTurns = 6;
 const int carTurns[numberOfTurns] = {0, 1, 0, 1, 1, -1};
 // this sets the seconds of delay BEFORE executing the turn or continuing on
-const int preTurnDelay[numberOfTurns] = {4, 1, 4, 1, 1, 1};
+const int preTurnDelay[numberOfTurns] = {3, 1, 2, 1, 1, 1};
 // this sets the seconds of delay AFTER executing the turn or continuing on
 const int postTurnDelay[numberOfTurns] = {0, 2, 0, 2, 2, 2};
 
@@ -107,7 +107,7 @@ int main()
   Brain.Screen.print("Initializing...");
 
   Controller1.ButtonX.pressed(abort);
-  Controller1.ButtonR1.pressed(pasueResume);
+  Controller1.ButtonR1.pressed(pauseResume);
 
   // super inertial sensor calibration
   for (int i = 0; i < 100; i++)
@@ -137,6 +137,7 @@ int main()
     Brain.Screen.print("Straightaway");
     preparePrintBig(3, 14, false);
     Brain.Screen.print(i + 1);
+    Brain.Screen.clearLine(4);
 
     // if car is detecting wall where it's supposed to be, always loop pid
     while ((useRightSensor && !(currentRight >= 9999 && lastRight < 9999)) ||
@@ -144,7 +145,7 @@ int main()
     {
       stop();
       pidDistanceStraight();
-      wait(500, msec);
+      wait(100, msec);
     }
 
     preparePrintBig(3, 1, false);
@@ -252,19 +253,19 @@ void pidDistanceStraight()
 
 void pidShiftLeft()
 {
-  if (leftMotor >= leftMotorMin + pidMultiplier && rightMotor <= rightMotorMax - pidMultiplier)
+  if (leftMotor >= leftMotorMin + leftPidMultiplier && rightMotor <= rightMotorMax - rightPidMultiplier)
   {
-    leftMotor -= pidMultiplier;
-    rightMotor += pidMultiplier;
+    leftMotor -= leftPidMultiplier;
+    rightMotor += rightPidMultiplier;
   }
 }
 
 void pidShiftRight()
 {
-  if (leftMotor <= leftMotorMax - pidMultiplier && rightMotor >= rightMotorMin + pidMultiplier)
+  if (leftMotor <= leftMotorMax - leftPidMultiplier && rightMotor >= rightMotorMin + rightPidMultiplier)
   {
-    leftMotor += pidMultiplier;
-    rightMotor -= pidMultiplier;
+    leftMotor += leftPidMultiplier;
+    rightMotor -= rightPidMultiplier;
   }
 }
 
@@ -341,6 +342,10 @@ void executeTurn(int i, int delay)
     // change to detect right wall, wait 1s for wall to spawn in
     useRightSensor = true;
     wait(delay, seconds);
+  } else {
+    leftMotor = initLeftMotor;
+    rightMotor = initRightMotor;
+    setVelocity();
   }
 }
 
@@ -385,7 +390,8 @@ void setVelocity()
 
 void frontImpale()
 {
-  if (distanceFront.objectDistance(mm) < 200)
+  currentFront = distanceFront.objectDistance(mm);
+  if (currentFront < 200)
   {
     abort();
   }
@@ -418,7 +424,7 @@ void abort()
 }
 
 // self explanatory
-void pasueResume()
+void pauseResume()
 {
   paused = !paused;
 }
@@ -429,10 +435,11 @@ void stop()
   frontImpale();
   if (aborted || paused)
   {
-    backLeft.setVelocity(-100, percent);
-    backRight.setVelocity(-100, percent);
+    backLeft.stop(hold);
+    // backLeft.setVelocity(-100, percent);
+    // backRight.setVelocity(-100, percent);
 
-    wait((leftMotor + rightMotor) * 4, msec);
+    // wait((leftMotor + rightMotor) * 4, msec);
 
     const int lastLeftMotor = leftMotor;
     const int lastRightMotor = rightMotor;
@@ -460,7 +467,8 @@ void stop()
 // val 2: right distance
 // val 3: left motor velocity
 // val 4: right motor velocity
-// val 5: gyro
+// val 5: front distance
+// val 6: gyro
 //
 void debugPrint()
 {
@@ -475,6 +483,8 @@ void debugPrint()
   Brain.Screen.setCursor(1, 19);
   Brain.Screen.print(rightMotor);
   Brain.Screen.setCursor(1, 25);
+  Brain.Screen.print(currentFront);
+  Brain.Screen.setCursor(1, 31);
   Brain.Screen.print(mpu.heading(degrees));
 }
 

@@ -3,7 +3,11 @@
 </h1>
 
 <p align="center">
-  Compatible with any RWD, Vex V5 w/ modifications.
+  Compatible with any dual-motor RWD, Vex V5 w/ modifications.
+</p>
+
+<p align="center">
+  (Hardware docs coming soon)
 </p>
 
 See [`src/main.cpp`](src/main.cpp) for code.
@@ -17,6 +21,7 @@ See [`PORTS.md`](PORTS.md) for connecting devices to the brain.
 See [`CHANGELOG.md`](CHANGELOG.md) for detailed update notes.
 
 ### License & Copyright
+
 GNU General Public License v3.0
 
 See [`LICENSE`](LICENSE).

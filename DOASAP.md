@@ -5,15 +5,15 @@ Complete the following tasks ASAP so we can cook.
 ## Friday, 05/10/2024
 
 ### Flex
-- [ ] Move to quad-wheel design
-- [ ] Program course in constants
+- [x] Move to quad-wheel design
+- [ ] ~~Program course in constants~~
 
 ### Lunch
-- [ ] Code final leg
-- [ ] Finish testing
+- [ ] ~~Code final leg~~
+- [ ] ~~Finish testing~~
 
 ### Class
-- [ ] Final runthrough (v3)
+- [ ] ~~Final runthrough (v3)~~
 
 ## Thrusday, 05/09/2024
 

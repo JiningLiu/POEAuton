@@ -4,17 +4,19 @@ This file contains the change in features of the codebase, sorted from newest to
 
 The link in the main version headers will always be to the latest update of the version.
 
-## v3 - 05/10/2024
+## [v3](https://github.com/JiningLiu/POEAuton/commit/main) - 05/10/2024
 
-### Final Release - 05/10/2024
+### [(Maybe) Final Update](https://github.com/JiningLiu/POEAuton/commit/main) - 05/10/2024
 
-_This is a planned release_
+- added front detection abort & debug print
+- added individual control for pid multiplier
+- fixed some print issues
+- changed loop delay from 500ms to 100ms
+- updated abort & pause
 
-- added front detection abort
+## [v2](https://github.com/JiningLiu/POEAuton/commit/58e062a0224e81c379fe86d822071ee777868c24) - 05/06-09/2024
 
-## [v2](https://github.com/JiningLiu/POEAuton/commit/main) - 05/06-09/2024
-
-### [Almost There Update (4)](https://github.com/JiningLiu/POEAuton/commit/main) - 05/09/2024
+### [Almost There Update (4)](https://github.com/JiningLiu/POEAuton/commit/58e062a0224e81c379fe86d822071ee777868c24) - 05/09/2024
 - removed useless code
 - added indication for left/right turn & keep straight @ intersections
 - changed fixed wall distance to a range
